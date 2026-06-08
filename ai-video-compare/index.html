@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 视频生成模型对比 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-card: #111118;
+    --bg-card-hover: #16161f;
+    --border: #1e1e2a;
+    --border-glow: #2a2a3a;
+    --text-primary: #eaeaea;
+    --text-secondary: #8888a0;
+    --text-dim: #555570;
+    --accent-yellow: #FFD84D;
+    --accent-yellow-dim: rgba(255, 216, 77, 0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px 40px;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(255,216,77,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(77,166,255,0.04) 0%, transparent 50%);
+    animation: heroFloat 20s ease-in-out infinite;
+  }
+
+  @keyframes heroFloat {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(2%, -1%); }
+    66% { transform: translate(-1%, 1%); }
+  }
+
+  .hero-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    backdrop-filter: blur(10px);
+    background: rgba(17,17,24,0.6);
+  }
+
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    background: #4dff91;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    position: relative;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 .highlight {
+    background: linear-gradient(135deg, var(--accent-yellow), #ffb84d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    position: relative;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  .section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-yellow);
+    margin-bottom: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 20px;
+    height: 2px;
+    background: var(--accent-yellow);
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 36px;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+
+  thead th {
+    padding: 16px 18px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    background: var(--bg-card);
+  }
+
+  thead th:not(:first-child) { text-align: center; }
+
+  tbody td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  tbody td:not(:first-child) { text-align: center; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--bg-card-hover); }
+
+  .td-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .td-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .check { color: #4dff91; font-size: 17px; }
+  .cross { color: var(--text-dim); font-size: 17px; }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .tag-wan { background: rgba(77,166,255,0.12); color: #4da6ff; }
+  .tag-wan26 { background: rgba(255,138,77,0.12); color: #ff8a4d; }
+  .tag-seed { background: rgba(166,77,255,0.12); color: #a64dff; }
+  .tag-kling { background: rgba(255,77,106,0.12); color: #ff4d6a; }
+
+  /* ===== VIDEO COMPARISON ===== */
+  .video-section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .video-grid { grid-template-columns: 1fr; }
+  }
+
+  .video-cell {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .video-cell:hover {
+    border-color: var(--border-glow);
+  }
+
+  .video-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .video-header .vh-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .video-header .vh-badge {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .vh-badge.wan { background: rgba(77,166,255,0.12); color: #4da6ff; }
+  .vh-badge.wan26 { background: rgba(255,138,77,0.12); color: #ff8a4d; }
+  .vh-badge.seed { background: rgba(166,77,255,0.12); color: #a64dff; }
+  .vh-badge.kling { background: rgba(255,77,106,0.12); color: #ff4d6a; }
+
+  .video-header .vh-spec {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .video-embed {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #08080d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .video-embed:hover .zoom-btn {
+    opacity: 1;
+  }
+
+  .zoom-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.25s ease, background 0.25s ease;
+    z-index: 2;
+    backdrop-filter: blur(6px);
+  }
+
+  .zoom-btn:hover {
+    background: rgba(255,216,77,0.25);
+    border-color: var(--accent-yellow);
+  }
+
+  /* ===== VIDEO MODAL ===== */
+  .video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .video-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .video-modal .modal-close {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .video-modal .modal-close:hover {
+    background: rgba(255,77,77,0.3);
+  }
+
+  .video-modal .modal-body {
+    width: 90vw;
+    max-width: 1200px;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .video-modal .modal-body video,
+  .video-modal .modal-body iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    border: none;
+  }
+
+  .video-modal .modal-label {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    z-index: 3;
+  }
+
+  /* ===== PROMPT BOX ===== */
+  .prompt-box {
+    margin-bottom: 32px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    position: relative;
+  }
+
+  .prompt-box .prompt-label {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    background: var(--accent-yellow-dim);
+    color: var(--accent-yellow);
+    margin-bottom: 10px;
+  }
+
+  .prompt-box p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+
+  .video-embed video,
+  .video-embed iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border: none;
+  }
+
+  .video-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+
+  .video-placeholder .ph-icon {
+    font-size: 28px;
+    opacity: 0.4;
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: var(--text-dim);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-primary); }
+  ::-webkit-scrollbar-thumb { background: var(--border-glow); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> 2026年5月更新</div>
+  <h1>AI 视频生成模型 <span class="highlight">四强对比</span></h1>
+  <p>Wan 2.2 · Wan 2.7 · Seedance 2.0 · 可灵 3.0</p>
+</section>
+
+<!-- ===== 视频对比 ===== -->
+<section class="video-section">
+  <div class="section-label">视频对比</div>
+  <h2 class="section-title">同一提示词，四种生成</h2>
+  <div class="prompt-box">
+    <div class="prompt-label">PROMPT</div>
+    <p>一名黑衣剑客与白衣刀客在暴雨中的古代长街展开生死决斗，武侠电影质感，强烈东方美学，镜头高速运动，雨水飞溅，地面积水倒影，刀光剑影，衣袍随风狂舞，动作凌厉流畅，轻功腾空翻转，快速拔刀斩击，慢动作特写，兵器碰撞火花四溅，镜头推拉摇移结合，电影级运镜，强氛围感，暗色调，霓虹灯笼光影，中国武侠，仙侠风格，超高细节，真实电影摄影，动态模糊，体积雾，史诗级打斗，高潮感强，4K，16:9，极致画面表现，类似电影预告片风格。</p>
+  </div>
+  <div class="video-grid">
+    <!-- Wan 2.2 -->
+    <div class="video-cell">
+      <div class="video-header">
+        <div class="vh-left">
+          <span class="vh-badge wan">Wan 2.2</span>
+        </div>
+      </div>
+      <div class="video-embed" onclick="openModal(this)">
+        <button class="zoom-btn" title="放大查看">⤢</button>
+        <video src="wan22.mp4" controls playsinline></video>
+      </div>
+    </div>
+
+    <!-- Wan 2.7 -->
+    <div class="video-cell">
+      <div class="video-header">
+        <div class="vh-left">
+          <span class="vh-badge wan26">Wan 2.7</span>
+        </div>
+      </div>
+      <div class="video-embed" onclick="openModal(this)">
+        <button class="zoom-btn" title="放大查看">⤢</button>
+        <video src="wan27.mp4" controls playsinline></video>
+      </div>
+    </div>
+
+    <!-- Seedance 2.0 -->
+    <div class="video-cell">
+      <div class="video-header">
+        <div class="vh-left">
+          <span class="vh-badge seed">Seedance 2.0</span>
+        </div>
+      </div>
+      <div class="video-embed" onclick="openModal(this)">
+        <button class="zoom-btn" title="放大查看">⤢</button>
+        <video src="kling30.mp4" controls playsinline></video>
+      </div>
+    </div>
+
+    <!-- 可灵 3.0 -->
+    <div class="video-cell">
+      <div class="video-header">
+        <div class="vh-left">
+          <span class="vh-badge kling">可灵 3.0</span>
+        </div>
+      </div>
+      <div class="video-embed" onclick="openModal(this)">
+        <button class="zoom-btn" title="放大查看">⤢</button>
+        <video src="seedance.mp4" controls playsinline></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 规格一览 ===== -->
+  <div class="section-label">核心参数</div>
+  <h2 class="section-title">规格一览</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>维度</th>
+          <th><span class="tag tag-wan">Wan 2.2</span></th>
+          <th><span class="tag tag-wan26">Wan 2.7</span></th>
+          <th><span class="tag tag-seed">Seedance 2.0</span></th>
+          <th><span class="tag tag-kling">可灵 3.0</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-label">开发方</td>
+          <td>阿里 · 万象AI</td>
+          <td>阿里 · 通义万相</td>
+          <td>字节 · Seed</td>
+          <td>快手 · AILab</td>
+        </tr>
+        <tr>
+          <td class="td-label">发布时间</td>
+          <td>2025.07</td>
+          <td>2025.12</td>
+          <td>2026.02</td>
+          <td>2026.02</td>
+        </tr>
+        <tr>
+          <td class="td-label">开源</td>
+          <td><span class="check">✓</span> 全系开源</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td class="td-label">架构</td>
+          <td>MoE</td>
+          <td>DiT (统一)</td>
+          <td>双分支 DiT</td>
+          <td>DiT + 3D VAE</td>
+        </tr>
+        <tr>
+          <td class="td-label">参数量</td>
+          <td>14B / 5B</td>
+          <td>未公开</td>
+          <td>未公开</td>
+          <td>未公开</td>
+        </tr>
+        <tr>
+          <td class="td-label">最高分辨率</td>
+          <td>720P</td>
+          <td>1080P @30fps</td>
+          <td>2K (upscale 4K)</td>
+          <td>原生 4K @60fps</td>
+        </tr>
+
+        <tr>
+          <td class="td-label">文本→视频</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="td-label">图片→视频</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="td-label">视频→视频</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+
+        <tr>
+          <td class="td-label">原生音频输出</td>
+          <td><span class="cross">✗</span> 静音</td>
+          <td><span class="check">✓</span> 音画同步</td>
+          <td><span class="check">✓</span> 原生音画</td>
+          <td><span class="check">✓</span> 5种语言</td>
+        </tr>
+        <tr>
+          <td class="td-label">口型同步</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span> 精准</td>
+          <td><span class="check">✓</span> 7种语言</td>
+        </tr>
+        <tr>
+          <td class="td-label">首尾帧控制</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="td-label">多模态混合输入</td>
+          <td>仅单模态</td>
+          <td>文本+图片+视频+音频</td>
+          <td>12个文件<br><span class="td-sub">9图+3视频+3音频</span></td>
+          <td>多图+视频参考<br><span class="td-sub">最多7张参考图</span></td>
+        </tr>
+        <tr>
+          <td class="td-label">智能分镜</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span> 自动4-6镜头</td>
+          <td><span class="check">✓</span> 多镜头</td>
+          <td><span class="check">✓</span> 分镜工具</td>
+        </tr>
+        <tr>
+          <td class="td-label">角色扮演</td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span> 国内首发</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="td-label">本地部署</td>
+          <td><span class="check">✓</span> 5B版4090可跑</td>
+          <td><span class="cross">✗</span> 仅云端</td>
+          <td><span class="cross">✗</span> 仅云端</td>
+          <td><span class="cross">✗</span> 仅云端</td>
+        </tr>
+        <tr>
+          <td class="td-label">API价格</td>
+          <td>免费(开源)</td>
+          <td>~$0.07/秒</td>
+          <td>未公开</td>
+          <td>~$0.126/秒</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 视频放大弹窗 -->
+<div class="video-modal" id="videoModal" onclick="closeModal(event)">
+  <button class="modal-close" onclick="closeModal(event)">✕</button>
+  <div class="modal-body" id="modalBody"></div>
+</div>
+
+<footer>
+  <p>数据更新于 2026年5月 · 信息来源：各模型官方文档、Atlas Cloud、CSDN、51CTO、Lumeflow、Vexub 等</p>
+  <p style="margin-top:6px">评分基于多源评测综合，仅供参考 · 具体表现以实际使用为准</p>
+</footer>
+
+<script>
+function openModal(embedEl) {
+  var modal = document.getElementById('videoModal');
+  var body = document.getElementById('modalBody');
+  body.innerHTML = '';
+
+  // 获取模型标识信息
+  var cell = embedEl.closest('.video-cell');
+  var badge = cell.querySelector('.vh-badge');
+  var spec = cell.querySelector('.vh-spec');
+
+  // 复制视频内容
+  var video = embedEl.querySelector('video');
+  var iframe = embedEl.querySelector('iframe');
+  var placeholder = embedEl.querySelector('.video-placeholder');
+
+  if (video) {
+    var clone = video.cloneNode(true);
+    clone.removeAttribute('controls');
+    clone.controls = true;
+    clone.style.width = '100%';
+    clone.style.height = '100%';
+    clone.style.objectFit = 'contain';
+    body.appendChild(clone);
+    clone.play().catch(function(){});
+  } else if (iframe) {
+    var clone = iframe.cloneNode(true);
+    body.appendChild(clone);
+  } else if (placeholder) {
+    var ph = placeholder.cloneNode(true);
+    ph.style.width = '100%';
+    ph.style.height = '100%';
+    ph.style.display = 'flex';
+    ph.style.alignItems = 'center';
+    ph.style.justifyContent = 'center';
+    body.appendChild(ph);
+  }
+
+  // 添加模型标签
+  if (badge) {
+    var label = document.createElement('div');
+    label.className = 'modal-label ' + badge.className.replace('vh-badge','');
+    label.textContent = badge.textContent + (spec ? ' · ' + spec.textContent : '');
+    body.appendChild(label);
+  }
+
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target.closest('.modal-body') && !e.target.closest('.modal-close')) return;
+  var modal = document.getElementById('videoModal');
+  var body = document.getElementById('modalBody');
+  // 暂停视频
+  var v = body.querySelector('video');
+  if (v) v.pause();
+  body.innerHTML = '';
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal({target: document.getElementById('videoModal')});
+});
+</script>
+
+</body>
+</html>

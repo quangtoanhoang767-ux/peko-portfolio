@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PEKO · AIGC 作品集</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0a0f; color: #eaeaea; font-family: 'Inter', 'Noto Sans SC', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }
+.header { text-align: center; margin-bottom: 60px; }
+.header h1 { font-size: 48px; font-weight: 800; letter-spacing: -2px; background: linear-gradient(135deg, #FFD84D 0%, #FFA726 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+.header p { font-size: 16px; color: #8888a0; font-weight: 300; letter-spacing: 2px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; max-width: 1100px; width: 100%; }
+.card { background: #111118; border: 1px solid #1e1e2a; border-radius: 16px; overflow: hidden; transition: all 0.3s ease; cursor: pointer; text-decoration: none; color: inherit; }
+.card:hover { border-color: #FFD84D; transform: translateY(-4px); box-shadow: 0 12px 40px rgba(255, 216, 77, 0.08); }
+.card-cover { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 64px; position: relative; overflow: hidden; }
+.card-cover.v1 { background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%); }
+.card-cover.v2 { background: linear-gradient(135deg, #0A0A0A 0%, #1a1a10 100%); }
+.card-cover.v3 { background: linear-gradient(135deg, #111B33 0%, #0D1530 100%); }
+.card-cover::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(transparent, #111118); }
+.card-body { padding: 24px; }
+.card-tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 12px; }
+.tag-compare { background: rgba(77,166,255,0.15); color: #4DA6FF; }
+.tag-novel { background: rgba(196,163,90,0.15); color: #C4A35A; }
+.tag-drama { background: rgba(185,28,28,0.15); color: #EF4444; }
+.card-body h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+.card-body p { font-size: 14px; color: #8888a0; line-height: 1.6; }
+.footer { margin-top: 60px; text-align: center; color: #555570; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>PEKO</h1>
+  <p>AIGC CREATOR PORTFOLIO</p>
+</div>
+<div class="cards">
+  <a class="card" href="ai-video-compare/">
+    <div class="card-cover v1">🎬</div>
+    <div class="card-body">
+      <span class="card-tag tag-compare">模型对比</span>
+      <h2>AI 视频生成模型对比</h2>
+      <p>Wan 2.2 / Seedance 2.0 / 可灵 3.0 / Wan 2.7 四大模型同提示词实测</p>
+    </div>
+  </a>
+  <a class="card" href="visual-novel/">
+    <div class="card-cover v2">📖</div>
+    <div class="card-body">
+      <span class="card-tag tag-novel">视觉小说</span>
+      <h2>代价 · The Price</h2>
+      <p>AIGC互动视觉小说，暗黑极简风格，沉浸式叙事体验</p>
+    </div>
+  </a>
+  <a class="card" href="short-drama/">
+    <div class="card-cover v3">⚔️</div>
+    <div class="card-body">
+      <span class="card-tag tag-drama">仙侠短剧</span>
+      <h2>灭族之夜</h2>
+      <p>大帝的我被后人召唤 · AI生成仙侠短剧，深靛蓝+琥珀金东方美学</p>
+    </div>
+  </a>
+</div>
+<div class="footer">PEKO · AIGC Portfolio © 2026</div>
+</body>
+</html>

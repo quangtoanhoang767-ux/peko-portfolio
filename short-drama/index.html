@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灭族之夜，大帝的我被后人召唤 · 短剧作品集</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg-primary: #111B33;
+            --bg-secondary: #162040;
+            --bg-card: #1A2748;
+            --bg-card-hover: #213260;
+            --gold: #D4A843;
+            --gold-bright: #FFD84D;
+            --gold-dim: #A67C2E;
+            --crimson: #B91C1C;
+            --crimson-bright: #DC2626;
+            --crimson-glow: #EF4444;
+            --jade: #2D6A4F;
+            --jade-light: #40916C;
+            --text-primary: #E8E6E3;
+            --text-secondary: #9CA3AF;
+            --text-dim: #6B7280;
+            --border-subtle: rgba(212, 168, 67, 0.15);
+            --border-gold: rgba(212, 168, 67, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-primary);
+            background-image: linear-gradient(180deg, #111B33 0%, #0F1A35 50%, #0D1530 100%);
+            color: var(--text-primary);
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+
+        /* ===== 粒子背景 ===== */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ===== 导航 ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(17, 27, 51, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0 2rem;
+            transition: all 0.3s ease;
+        }
+
+        nav .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 64px;
+        }
+
+        nav .logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 4px;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+
+        nav .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        nav .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* ===== Hero 区域 ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 60% 50% at 50% 40%, rgba(212, 168, 67, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 30% at 30% 60%, rgba(185, 28, 28, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 70% 70%, rgba(30, 58, 138, 0.1) 0%, transparent 60%);
+            z-index: -1;
+        }
+
+        .hero-subtitle {
+            font-size: 0.8rem;
+            letter-spacing: 8px;
+            color: var(--gold-dim);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            animation: fadeInDown 1s ease 0.2s both;
+        }
+
+        .hero-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: 12px;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease 0.4s both;
+        }
+
+        .hero-title .char-gold {
+            color: var(--gold);
+            text-shadow: 0 0 40px rgba(212, 168, 67, 0.3);
+        }
+
+        .hero-title .char-crimson {
+            color: var(--crimson-bright);
+            text-shadow: 0 0 40px rgba(220, 38, 38, 0.3);
+        }
+
+        .hero-tagline {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: var(--text-secondary);
+            max-width: 700px;
+            line-height: 2;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease 0.6s both;
+        }
+
+        .hero-tagline em {
+            color: var(--gold);
+            font-style: normal;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInDown 1s ease 0.8s both;
+        }
+
+        .hero-tag {
+            padding: 0.4rem 1.2rem;
+            border: 1px solid var(--border-gold);
+            border-radius: 2px;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--gold-dim);
+            transition: all 0.3s;
+        }
+
+        .hero-tag:hover {
+            background: rgba(212, 168, 67, 0.1);
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .scroll-hint span {
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            color: var(--text-dim);
+        }
+
+        .scroll-hint .arrow {
+            width: 1px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--gold-dim), transparent);
+        }
+
+        /* ===== 通用 Section ===== */
+        section {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 6px;
+            color: var(--gold-dim);
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-title .accent {
+            color: var(--gold);
+        }
+
+        .section-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            line-height: 1.9;
+        }
+
+        .divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(to right, var(--gold), transparent);
+            margin-bottom: 2rem;
+        }
+
+        /* ===== 故事概览 ===== */
+        .story-overview {
+            border-left: 2px solid var(--border-gold);
+            padding-left: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .story-overview p {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem;
+            line-height: 2.2;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .story-overview p .highlight {
+            color: var(--gold);
+        }
+
+        .story-overview p .blood {
+            color: var(--crimson-bright);
+        }
+
+        /* ===== 名言区 ===== */
+        .quote-block {
+            position: relative;
+            background: linear-gradient(135deg, rgba(212, 168, 67, 0.06), rgba(30, 58, 138, 0.08), rgba(185, 28, 28, 0.05));
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 2.5rem 3rem;
+            margin-top: 2rem;
+        }
+
+        .quote-block::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 5rem;
+            color: var(--gold-dim);
+            line-height: 1;
+            opacity: 0.4;
+        }
+
+        .quote-block p {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.15rem;
+            line-height: 2.4;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        .quote-block .speaker {
+            display: block;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--gold-dim);
+            letter-spacing: 3px;
+        }
+
+        /* ===== 角色卡片区 ===== */
+        .characters-scroll-outer {
+            position: relative;
+        }
+
+        .characters-scroll {
+            display: flex;
+            gap: 1.2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 1rem 0 2rem;
+            -webkit-overflow-scrolling: touch;
+            align-items: stretch;
+            /* 隐藏滚动条 */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .characters-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .char-card {
+            position: relative;
+            flex: 0 0 280px;
+            height: 460px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 0;
+            scroll-snap-align: start;
+            transition: all 0.4s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .char-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .char-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-gold);
+            transform: translateY(-4px);
+        }
+
+        .char-card:hover::before {
+            opacity: 1;
+        }
+
+        .char-card .char-avatar-wrap {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            background: #0A1020;
+            flex-shrink: 0;
+        }
+
+        .char-card .char-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .char-card .char-body {
+            padding: 1.5rem 1.5rem 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 无图卡片的占位区，保持与有图卡片对齐 */
+        .char-placeholder {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            background: linear-gradient(135deg, #0E1830, #152240);
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .char-placeholder .char-placeholder-icon {
+            font-size: 2.4rem;
+            opacity: 0.2;
+        }
+
+        .char-card .char-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .char-card .char-name {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .char-card .char-name.protagonist {
+            color: var(--gold);
+        }
+
+        .char-card .char-name.antagonist {
+            color: var(--crimson-bright);
+        }
+
+        .char-card .char-realm {
+            padding: 0.2rem 0.6rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            white-space: nowrap;
+        }
+
+        .char-card .char-realm.emperor {
+            border-color: var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .char-card .char-realm.vile {
+            border-color: rgba(185, 28, 28, 0.4);
+            color: var(--crimson-bright);
+        }
+
+        .char-card .char-meta {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .char-card .char-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        .scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border-gold);
+            background: rgba(17, 27, 51, 0.9);
+            backdrop-filter: blur(10px);
+            color: var(--gold);
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .scroll-btn:hover {
+            background: rgba(212, 168, 67, 0.15);
+            box-shadow: 0 0 16px rgba(212, 168, 67, 0.2);
+        }
+
+        .scroll-btn.left {
+            left: -12px;
+        }
+
+        .scroll-btn.right {
+            right: -12px;
+        }
+
+        .scroll-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .scroll-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-dim);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .scroll-dot.active {
+            background: var(--gold);
+            width: 20px;
+            border-radius: 3px;
+        }
+
+        /* ===== 正片 ===== */
+        .episodes-wrap {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .ep-card {
+            width: 340px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .ep-card:hover {
+            border-color: var(--border-gold);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .ep-player {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            background: #0A1020;
+            overflow: hidden;
+        }
+
+        .ep-player video,
+        .ep-player iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+        }
+
+        .ep-enlarge-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 168, 67, 0.3);
+            color: var(--gold-dim);
+            font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 5;
+        }
+
+        .ep-enlarge-btn:hover {
+            background: rgba(212, 168, 67, 0.15);
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* ===== 视频全屏遮罩 ===== */
+        .video-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .video-overlay.active {
+            display: flex;
+        }
+
+        .video-overlay video {
+            max-height: 95vh;
+            max-width: 95vw;
+            border-radius: 6px;
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .video-overlay .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 1.4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .video-overlay .close-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .ep-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1.2rem;
+            background: linear-gradient(180deg, #0A1020, #131E38 50%, #0A1020);
+        }
+
+        .ep-play-btn {
+            width: 72px;
+            height: 72px;
+            border: 2px solid rgba(212, 168, 67, 0.35);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.6rem;
+            color: var(--gold-dim);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .ep-card:hover .ep-play-btn {
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 24px rgba(212, 168, 67, 0.25);
+        }
+
+        .ep-placeholder-text {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            letter-spacing: 4px;
+        }
+
+        .ep-info {
+            padding: 1.5rem 1.8rem;
+        }
+
+        .ep-badge {
+            display: inline-block;
+            padding: 0.2rem 0.7rem;
+            border: 1px solid var(--gold-dim);
+            border-radius: 2px;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
+        }
+
+        .ep-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .ep-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ===== 创作理念 ===== */
+        .creative-notes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .cn-item {
+            padding: 1.5rem;
+            border-left: 2px solid var(--border-gold);
+        }
+
+        .cn-item .cn-num {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold-dim);
+            opacity: 0.5;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .cn-item .cn-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cn-item .cn-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        footer .footer-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 6px;
+            margin-bottom: 1rem;
+        }
+
+        footer .footer-sub {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            letter-spacing: 3px;
+        }
+
+        footer .footer-line {
+            width: 40px;
+            height: 1px;
+            background: var(--gold-dim);
+            margin: 2rem auto;
+        }
+
+        footer .footer-credit {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+
+        /* ===== 动画 ===== */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 768px) {
+            nav .nav-links {
+                display: none;
+            }
+
+            .hero-title {
+                letter-spacing: 6px;
+            }
+
+            .hero-tagline {
+                font-size: 0.95rem;
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+
+            .characters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .char-card {
+                flex: 0 0 260px;
+            }
+
+            .scroll-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.85rem;
+            }
+
+            .scroll-btn.left {
+                left: -6px;
+            }
+
+            .scroll-btn.right {
+                right: -6px;
+            }
+
+            .quote-block {
+                padding: 2rem 1.5rem;
+            }
+
+            .episodes-wrap {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .ep-card {
+                width: min(340px, 90vw);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 粒子背景 -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- 导航 -->
+    <nav>
+        <div class="nav-inner">
+            <div class="logo">灭族之夜</div>
+            <ul class="nav-links">
+                <li><a href="#story">故事</a></li>
+                <li><a href="#episodes">剧集</a></li>
+                <li><a href="#characters">人物</a></li>
+                <li><a href="#creative">创作</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1 class="hero-title">
+            灭族之夜
+        </h1>
+        <p class="hero-tagline" style="font-size: clamp(1.1rem, 2.8vw, 1.6rem); margin-bottom: 1rem; color: var(--gold);">
+            大帝的我，被后人召唤
+        </p>
+        <p class="hero-tagline">
+            十万年前，一人一剑入天渊<br>
+            十万年后，<em>血脉为祭</em>，大帝重临人间<br>
+            <em>既如此，我便拉上诸天一起陪葬</em>
+        </p>
+        <div class="scroll-hint">
+            <span>SCROLL</span>
+            <div class="arrow"></div>
+        </div>
+    </div>
+
+    <!-- 正片 -->
+    <section id="episodes">
+        <div class="reveal">
+            <div class="section-label">EPISODES</div>
+            <h2 class="section-title">正片<span class="accent">上线</span></h2>
+            <div class="divider"></div>
+            <p class="section-desc">灭族之夜，血脉召唤——第一集、第二集正片。</p>
+        </div>
+        <div class="episodes-wrap">
+            <div class="ep-card reveal">
+                <div class="ep-player">
+                    <video src="ep01_灭族之夜.mp4" controls playsinline poster=""></video>
+                    <button class="ep-enlarge-btn" onclick="enlargeVideo(this)" title="放大观看">⤢</button>
+                </div>
+                <div class="ep-info">
+                    <div class="ep-badge">EP.01</div>
+                    <div class="ep-title">灭族之夜</div>
+                    <div class="ep-desc">林家老祖亲至，虐杀陆家族人，威逼交出太虚剑典。陆天元宁死不从，陆玲珑以古谱为引，以全族精血沟通天渊之上的陆玄大帝。</div>
+                </div>
+            </div>
+            <div class="ep-card reveal">
+                <div class="ep-player">
+                    <video src="ep02.mp4" controls playsinline poster=""></video>
+                    <button class="ep-enlarge-btn" onclick="enlargeVideo(this)" title="放大观看">⤢</button>
+                </div>
+                <div class="ep-info">
+                    <div class="ep-badge">EP.02</div>
+                    <div class="ep-title">血脉召唤</div>
+                    <div class="ep-desc">陆玲珑以古谱为引，以全族精血沟通天渊之上的陆玄大帝。血脉共鸣穿越十万年，大帝感应后人之召，踏破天渊，重返人间。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 故事概览 -->
+    <section id="story">
+        <div class="reveal">
+            <div class="section-label">STORY</div>
+            <h2 class="section-title">十万年之<span class="accent">约</span></h2>
+            <div class="divider"></div>
+        </div>
+        <div class="story-overview reveal">
+            <p>十万年前，<span class="highlight">陆玄</span>出世，以无敌之姿踏入大帝境，却遭长生世家与不朽道统忌惮。二皇同临，以陆家族人威逼陆玄镇守天渊——<span class="blood">一人一剑，以身为界，镇压异域入口。</span></p>
+            <p>十万年后，陆玄身躯腐朽，油尽灯枯之际，忽闻族人召唤。长生世家未守约定，反不断欺辱打压陆家，觊觎震族至宝<span class="highlight">太虚剑典</span>。林家老祖亲至，虐杀陆家族人，威逼交出剑典。</p>
+            <p>陆玲珑以古谱为引，以全族精血沟通天渊之上的陆玄大帝。陆玄踏入异域，<span class="blood">斩尊者，灭古皇</span>，逼异域皇者献上不死药。万年不朽，重回巅峰。</p>
+            <p>尘封十万年的<span class="highlight">葬天神剑</span>出世，苍天啼血，万剑悲鸣。天渊封印解除，异域再临，诸天沦陷。</p>
+        </div>
+        <div class="quote-block reveal">
+            <p>
+                我为诸天镇守天渊十万年，尔等蝼蚁竟敢辱我后人，断我传承。<br>
+                既如此，我便斩断封印，拉上诸天一起陪葬。<br>
+                今后，我陆玄，只守护我陆氏一族——人族生死，与我无关。
+            </p>
+            <span class="speaker">—— 陆玄 · 大帝</span>
+        </div>
+    </section>
+
+    <!-- 人物 -->
+    <section id="characters">
+        <div class="reveal">
+            <div class="section-label">CHARACTERS</div>
+            <h2 class="section-title">诸天<span class="accent">众生</span></h2>
+            <div class="divider"></div>
+            <p class="section-desc">十万年沧海桑田，恩怨纠葛，皆在一念之间。</p>
+        </div>
+        <div class="characters-scroll-outer">
+            <button class="scroll-btn left" onclick="scrollChars(-1)">‹</button>
+            <div class="characters-scroll" id="charsScroll">
+            <!-- 主角阵营 -->
+            <div class="char-card reveal">
+                <div class="char-avatar-wrap"><img class="char-avatar" src="chars_陆玄.png" alt="陆玄" style="object-position:center 30%"></div>
+                <div class="char-body">
+                    <div class="char-header">
+                        <div class="char-name protagonist">陆玄</div>
+                        <span class="char-realm emperor">大帝境</span>
+                    </div>
+                    <div class="char-meta">男主 · 视觉年龄 25岁</div>
+                    <div class="char-desc">十万年前人界第一天才，最年轻的大帝境强者。受二皇施压镇守天渊，十万年后受陆家族人召唤，以血脉为祭，踏破天渊，重踏人间。一人一剑，镇压诸天。</div>
+                </div>
+            </div>
+
+            <div class="char-card reveal">
+                <div class="char-avatar-wrap"><img class="char-avatar" src="chars_陆天元.png" alt="陆天元"></div>
+                <div class="char-body">
+                    <div class="char-header">
+                        <div class="char-name">陆天元</div>
+                        <span class="char-realm">准大帝境</span>
+                    </div>
+                    <div class="char-meta">陆家第五代后人 · 视觉年龄 40岁</div>
+                    <div class="char-desc">陆家家主，一心为陆家，忍辱负重。面对林家老祖施压，宁可自杀成仁，也要保全陆家血脉。</div>
+                </div>
+            </div>
+
+            <div class="char-card reveal">
+                <div class="char-avatar-wrap"><img class="char-avatar" src="chars_陆玲珑.png" alt="陆玲珑"></div>
+                <div class="char-body">
+                    <div class="char-header">
+                        <div class="char-name">陆玲珑</div>
+                        <span class="char-realm">血脉觉醒</span>
+                    </div>
+                    <div class="char-meta">陆家第六代后人 · 视觉年龄 7岁</div>
+                    <div class="char-desc">乖巧可爱，古灵精怪，熟读各类古籍，有过目不忘之能。灭族之祸中想起古谱记载，以族人精血为引沟通陆玄。</div>
+                </div>
+            </div>
+
+            <div class="char-card reveal">
+                <div class="char-avatar-wrap"><img class="char-avatar" src="chars_沈晴.png" alt="沈晴"></div>
+                <div class="char-body">
+                    <div class="char-header">
+                        <div class="char-name">沈晴</div>
+                        <span class="char-realm emperor">人皇</span>
+                    </div>
+                    <div class="char-meta">人族三皇之一 · 视觉年龄 23岁</div>
+                    <div class="char-desc">瑶池圣地新晋人皇，貌美圣洁，继承老宗主衣钵。十万年前对陆玄有赠药救命之恩，百年前闭关推衍得知人族浩劫将至，与陆玄联手抗敌。</div>
+                </div>
+            </div>
+
+            <!-- 反派阵营 -->
+            <div class="char-card reveal">
+                <div class="char-avatar-wrap"><img class="char-avatar" src="chars_林家老祖.png" alt="林家老祖" style="object-position:center 20%"></div>
+                <div class="char-body">
+                    <div class="char-header">
+                        <div class="char-name antagonist">林家老祖</div>
+                        <span class="char-realm vile">大帝境</span>
+                    </div>
+                    <div class="char-meta">林家老祖 · 视觉年龄 50岁</div>
+                    <div class="char-desc">借阅太虚剑典不成，便编造莫须有罪名打压陆家，仗势欺人，以陆家族人性命威胁陆天元交出镇族之宝。</div>
+                </div>
+            </div>
+
+            <div class="char-card reveal">
+                <div class="char-avatar-wrap"><img class="char-avatar" src="chars_黄九.png" alt="黄九"></div>
+                <div class="char-body">
+                    <div class="char-header">
+                        <div class="char-name antagonist">黄九</div>
+                        <span class="char-realm vile">人皇</span>
+                    </div>
+                    <div class="char-meta">人族三皇之一 · 视觉年龄 40岁</div>
+                    <div class="char-desc">缥缈宗宗主，与魔皇密谋均分天下，一切阴谋背后的主使者。善于伪装，以"人族强者"面目行走世间。</div>
+                </div>
+            </div>
+            </div>
+            <button class="scroll-btn right" onclick="scrollChars(1)">›</button>
+        </div>
+        <div class="scroll-dots" id="charDots"></div>
+    </section>
+
+    <!-- 创作理念 -->
+    <section id="creative">
+        <div class="reveal">
+            <div class="section-label">CREATIVE</div>
+            <h2 class="section-title">创作<span class="accent">理念</span></h2>
+            <div class="divider"></div>
+            <p class="section-desc">AI仙侠短剧的核心创作逻辑。</p>
+        </div>
+        <div class="creative-notes">
+            <div class="cn-item reveal">
+                <div class="cn-num">01</div>
+                <div class="cn-title">血脉为引 · 情感锚点</div>
+                <div class="cn-desc">陆玲珑以全族精血召唤陆玄，是整个故事的灵魂转折。家族血脉的羁绊，让十万年的孤独有了回应。</div>
+            </div>
+            <div class="cn-item reveal">
+                <div class="cn-num">02</div>
+                <div class="cn-title">大帝归来 · 爽感节奏</div>
+                <div class="cn-desc">从屈辱到碾压，从绝境到横扫——经典的大帝归来叙事，以高压困境铺垫，以无敌之姿释放情绪。</div>
+            </div>
+            <div class="cn-item reveal">
+                <div class="cn-num">03</div>
+                <div class="cn-title">诸天沦陷 · 道德翻转</div>
+                <div class="cn-desc">陆玄从守护诸天到只守护陆家，完成了从"大义"到"私情"的道德翻转。这不是堕落，是被背叛后的觉醒。</div>
+            </div>
+            <div class="cn-item reveal">
+                <div class="cn-num">04</div>
+                <div class="cn-title">暗线交织 · 权谋深网</div>
+                <div class="cn-desc">人族三皇各怀鬼胎，林长生勾结异族，黄九幕后操纵——明线是复仇，暗线是权谋，双线交织推动叙事纵深。</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-title">灭族之夜</div>
+        <div class="footer-sub">大帝的我被后人召唤 · AI仙侠短剧作品集</div>
+        <div class="footer-line"></div>
+        <div class="footer-credit">DESIGNED FOR AIGC SHORT DRAMA PORTFOLIO</div>
+    </footer>
+
+    <!-- 视频放大遮罩 -->
+    <div class="video-overlay" id="videoOverlay" onclick="closeEnlarged(event)">
+        <div class="close-btn">✕</div>
+        <video id="enlargedVideo" controls playsinline></video>
+    </div>
+
+    <!-- 粒子动画 & 滚动显示 -->
+    <script>
+        // ===== 粒子效果 =====
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.3;
+                this.speedY = -(Math.random() * 0.3 + 0.05);
+                this.speedX = (Math.random() - 0.5) * 0.15;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.color = Math.random() > 0.6 ? '212, 168, 67' : (Math.random() > 0.5 ? '147, 171, 228' : '156, 163, 175');
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                if (this.y < -10) this.reset(), this.y = canvas.height + 10;
+                if (this.x < -10 || this.x > canvas.width + 10) this.reset();
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ===== 滚动显示 =====
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        reveals.forEach(el => observer.observe(el));
+
+        // ===== 角色横滑 =====
+        const charsScroll = document.getElementById('charsScroll');
+        const dotsContainer = document.getElementById('charDots');
+        const charCards = charsScroll.querySelectorAll('.char-card');
+
+        // 生成指示点
+        charCards.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'scroll-dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => {
+                charCards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = dotsContainer.querySelectorAll('.scroll-dot');
+
+        // 滚动时更新指示点
+        charsScroll.addEventListener('scroll', () => {
+            const scrollLeft = charsScroll.scrollLeft;
+            const cardWidth = charCards[0].offsetWidth + 12; // gap
+            const activeIndex = Math.round(scrollLeft / cardWidth);
+            dots.forEach((d, i) => d.classList.toggle('active', i === activeIndex));
+        });
+
+        // 左右按钮
+        function scrollChars(dir) {
+            const cardWidth = charCards[0].offsetWidth + 12;
+            charsScroll.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+        }
+
+        // ===== 视频放大 =====
+        const overlay = document.getElementById('videoOverlay');
+        const enlargedVideo = document.getElementById('enlargedVideo');
+
+        function enlargeVideo(btn) {
+            const player = btn.closest('.ep-player');
+            const video = player.querySelector('video');
+            if (!video) return;
+            // 记住当前播放进度
+            enlargedVideo.src = video.src;
+            enlargedVideo.currentTime = video.currentTime;
+            overlay.classList.add('active');
+            enlargedVideo.play();
+        }
+
+        function closeEnlarged(e) {
+            // 点击视频本身不关闭，只点背景或关闭按钮
+            if (e.target === enlargedVideo) return;
+            // 同步播放进度回原视频
+            const videos = document.querySelectorAll('.ep-player video');
+            videos.forEach(v => {
+                if (v.src === enlargedVideo.src) {
+                    v.currentTime = enlargedVideo.currentTime;
+                }
+            });
+            enlargedVideo.pause();
+            overlay.classList.remove('active');
+        }
+
+        // ESC 关闭
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                closeEnlarged(e);
+            }
+        });
+    </script>
+
+</body>
+</html>
